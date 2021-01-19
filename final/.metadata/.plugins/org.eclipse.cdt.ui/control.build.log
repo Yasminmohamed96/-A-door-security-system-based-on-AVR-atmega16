@@ -1,0 +1,45 @@
+21:30:06 **** Incremental Build of configuration Debug for project control ****
+make all 
+Building file: ../MC2_MAIN.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega16 -DF_CPU=1000000UL -MMD -MP -MF"MC2_MAIN.d" -MT"MC2_MAIN.o" -c -o "MC2_MAIN.o" "../MC2_MAIN.c"
+In file included from ../micro_config.h:22,
+                 from ../lcd.h:18,
+                 from ../MC2_MAIN.c:8:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+../MC2_MAIN.c: In function 'if_savedPassword_matched':
+../MC2_MAIN.c:71: warning: pointer targets in passing argument 1 of 'strcmp' differ in signedness
+../MC2_MAIN.c:71: warning: pointer targets in passing argument 2 of 'strcmp' differ in signedness
+../MC2_MAIN.c: In function 'openDOOR':
+../MC2_MAIN.c:179: warning: implicit declaration of function 'TIMER1_setCallBack'
+../MC2_MAIN.c: In function 'main':
+../MC2_MAIN.c:237: warning: pointer targets in passing argument 1 of 'UART_sendString' differ in signedness
+Finished building: ../MC2_MAIN.c
+ 
+Building target: control.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,control.map -mmcu=atmega16 -o "control.elf"  ./MC2_MAIN.o ./external_eeprom.o ./i2c.o ./interrupt.o ./lcd.o ./timer.o ./uart.o   
+Finished building target: control.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S control.elf  >"control.lss"
+Finished building: control.lss
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega16 control.elf
+AVR Memory Usage
+----------------
+Device: atmega16
+
+Program:   10790 bytes (65.9% Full)
+(.text + .data + .bootloader)
+
+Data:         65 bytes (6.3% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+
+21:30:07 Build Finished. 0 errors, 5 warnings. (took 910ms)
+

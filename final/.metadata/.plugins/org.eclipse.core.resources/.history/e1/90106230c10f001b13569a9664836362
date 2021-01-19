@@ -1,0 +1,24 @@
+/*
+ * timer.h
+ *
+ *  Created on: Oct 16, 2020
+ *      Author: yasmin mohamed
+ */
+
+#ifndef TIMER_H_
+#define TIMER_H_
+#include "std_types.h"
+#include "common_macros.h"
+#include "micro_config.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct{
+	TIMER_mode a_mode;
+	uint8 a_channel;
+	TIMER_prescaler a_prescaler;
+	uint16 a_inital_value;
+	uint16 a_compare_value;
+}TIMER_data;
+
+#endif /* TIMER_H_ */

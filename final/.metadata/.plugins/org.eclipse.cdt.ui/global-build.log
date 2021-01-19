@@ -1,0 +1,41 @@
+21:30:10 **** Incremental Build of configuration Debug for project interface ****
+make all 
+Building file: ../MC1_MAIN.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega16 -DF_CPU=1000000UL -MMD -MP -MF"MC1_MAIN.d" -MT"MC1_MAIN.o" -c -o "MC1_MAIN.o" "../MC1_MAIN.c"
+In file included from ../micro_config.h:22,
+                 from ../keypad.h:17,
+                 from ../MC1_MAIN.c:9:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+../MC1_MAIN.c: In function 'log_in':
+../MC1_MAIN.c:116: warning: unused variable 'check'
+../MC1_MAIN.c: In function 'system_pause':
+../MC1_MAIN.c:178: warning: implicit declaration of function 'TIMER1_setCallBack'
+../MC1_MAIN.c: In function 'main':
+../MC1_MAIN.c:206: warning: pointer targets in passing argument 1 of 'LCD_displayString' differ in signedness
+Finished building: ../MC1_MAIN.c
+ 
+Building target: interface.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,interface.map -mmcu=atmega16 -o "interface.elf"  ./MC1_MAIN.o ./adc.o ./interrupt.o ./keypad.o ./lcd.o ./timer.o ./uart.o   
+Finished building target: interface.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S interface.elf  >"interface.lss"
+Finished building: interface.lss
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega16 interface.elf
+AVR Memory Usage
+----------------
+Device: atmega16
+
+Program:   11132 bytes (67.9% Full)
+(.text + .data + .bootloader)
+
+Data:        155 bytes (15.1% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 

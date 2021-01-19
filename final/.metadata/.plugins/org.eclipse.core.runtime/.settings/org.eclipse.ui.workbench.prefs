@@ -1,0 +1,5 @@
+//org.eclipse.ui.commands/state/org.eclipse.ui.navigator.resources.nested.changeProjectPresentation/org.eclipse.ui.commands.radioState=false
+ColorsAndFontsPreferencePage.expandedCategories=Torg.eclipse.ui.workbenchMisc
+ColorsAndFontsPreferencePage.selectedElement=Forg.eclipse.jface.bannerfont
+eclipse.preferences.version=1
+org.eclipse.jface.bannerfont=1|Arial Narrow|14.25|1|WINDOWS|1|-19|0|0|0|700|0|0|0|0|3|2|1|34|Arial Narrow;

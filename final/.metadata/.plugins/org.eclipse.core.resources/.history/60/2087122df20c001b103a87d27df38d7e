@@ -1,0 +1,126 @@
+/*
+ * MC2_MAIN.c
+ *
+ *  Created on: Sep 30, 2020
+ *      Author: yasmin mohamed
+ */
+
+#include "lcd.h"
+#include "uart.h"
+#include "external_eeprom.h"
+#include "string.h"
+#define M2_READY 0x10
+
+#define true 1
+#define false 0
+
+void store_password (void)
+{
+	uint8 password1[7];
+
+	uint8 check,i,j;
+	while ((UART_recieveByte ()) != M2_READY);
+	UART_receiveString (password1);
+
+
+	LCD_displayString(password1);
+	for ( i=0 ; i<7 ; i++)
+		{
+		   EEPROM_writeByte (i,password1[i]);
+		    _delay_ms (80);
+		}
+	}
+
+uint8 if_savedPassword_matched (void)
+{
+
+	uint8 i;
+	uint8 password[7];
+	uint8 savedPassword[7];
+	while ((UART_recieveByte ()) != M2_READY);
+	UART_receiveString (password);
+	for(i=0 ; i<5 ; i++)
+    {
+     	EEPROM_readByte(i,&savedPassword[i]);
+     	_delay_ms(80);
+    }
+	savedPassword[i] = '\0';
+
+	if ((strcmp (password,savedPassword)) == 0)
+		{
+			return true;
+		}
+	else
+	{
+		return false;
+	}
+}
+
+void openDoor(void)
+{
+	/* configure pin PC0 and PC1 as output pins */
+						SET_BIT(DDRC,PC2);
+						SET_BIT(DDRC,PC3);
+						SET_BIT(DDRC,PC4);
+						SET_BIT(PORTC,PC4);
+						/* Rotate the motor --> clock wise*/
+						PORTC &= (~(1<<PC2));
+						PORTC |= (1<<PC3);
+						//WAIT 10 SEC
+						_delay_ms(10000);
+						TOGGLE_BIT(PORTC,PC2);
+						TOGGLE_BIT(PORTC,PC3);
+						//WAIT 10 SEC
+						_delay_ms(10000);
+						CLEAR_BIT(PORTC,PC4);//disable motor
+
+}
+int main(void)
+{
+	uint8 matchState;
+	UART_init();
+	while(UART_recieveByte() != M2_READY){} // wait until MC2 is ready
+	EEPROM_init();
+	LCD_init();
+
+	UART_sendString("I am Micro1#"); // send the required string to MC2
+	//LCD_displayString("hello");
+	uint8 val;
+	EEPROM_writeByte(0x0311, 0x0F); /* Write 0x0F in the external EEPROM */
+	_delay_ms(80);
+	EEPROM_readByte(0x0311, &val);  /* Read 0x0F from the external EEPROM */
+    while(1)
+    {
+    	store_password();
+    	while(UART_recieveByte() != M2_READY){} // wait until MC2 is ready
+    	UART_sendByte (0x01);
+///////////////////////////////////////////////
+    	UART_sendByte (M2_READY);
+    	if(UART_recieveByte()=='o')
+    	{
+    	matchState=if_savedPassword_matched();
+    	LCD_intgerToString(matchState);
+    	if (matchState==true)
+    	  {
+    		openDoor();
+    	  }
+    	}
+    	if(UART_recieveByte()=='c')
+    	{
+    		while(UART_recieveByte() != M2_READY){}
+    		matchState=if_savedPassword_matched();
+    		if (matchState==true)
+    		   {
+    			while(UART_recieveByte() != M2_READY){} // wait until MC2 is ready
+    			UART_sendByte (true);
+    		   }
+    		if (matchState==false)
+    		{
+    			while(UART_recieveByte() != M2_READY){} // wait until MC2 is ready
+    		    UART_sendByte (false);
+    		}
+    	}
+
+}
+}
+
